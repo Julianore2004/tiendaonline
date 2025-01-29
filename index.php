@@ -42,6 +42,32 @@
     .product-card .product-price {
         margin-bottom: 10px;
     }
+    #searchResults {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+    }
+
+    #searchResults .list-group-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+    #searchResults .list-group-item img {
+        max-width: 50px;
+        max-height: 50px;
+        margin-right: 10px;
+    }
+
 </style>
 <head>
     <title>Inicio</title>
@@ -97,19 +123,15 @@
     <section id="new-prod-index">
     <div class="container-fluid">
                 <div class="row">
-                  <div class="col-xs-12 col-md-4 col-md-offset-4">
-                    <form action="./search.php" method="GET">
-                      <div class="form-group">
+                <div class="col-xs-12 col-md-4 col-md-offset-<?php echo !empty($categoria) ? '0' : '4'; ?>">
+                    <div class="form-group">
                         <div class="input-group">
-                          <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                          <input type="text" id="addon1" class="form-control" name="term" required="" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
-                          <span class="input-group-btn">
-                              <button class="btn btn-warning btn-raised" type="submit">Buscar</button>
-                          </span>
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" id="searchInput" class="form-control" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
                         </div>
-                      </div>
-                    </form>
-                  </div>
+                        <div id="searchResults" class="list-group"></div>
+                    </div>
+                </div>
                 </div>
               </div>
               <div class="container">
@@ -187,5 +209,48 @@
 
     <?php include './inc/footer.php'; ?>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
 
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value;
+            if (query.length > 2) { // Solo realiza la búsqueda si la consulta tiene más de 2 caracteres
+                fetch('search_suggestions.php?term=' + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = ''; // Limpia los resultados anteriores
+                        if (data.length > 0) {
+                            searchResults.style.display = 'block';
+                            data.forEach(item => {
+                                const listItem = document.createElement('a');
+                                listItem.href = 'infoProd.php?CodigoProd=' + item.CodigoProd;
+                                listItem.className = 'list-group-item';
+                                listItem.innerHTML = `
+                                    <img src="./assets/img-products/${item.Imagen}" alt="${item.NombreProd}">
+                                    <div>
+                                        <h5>${item.NombreProd}</h5>
+                                        <p>S/.${item.Precio}</p>
+                                    </div>
+                                `;
+                                searchResults.appendChild(listItem);
+                            });
+                        } else {
+                            searchResults.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    });
+</script>
 </html>
