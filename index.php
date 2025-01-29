@@ -70,54 +70,101 @@
                   </div>
                 </div>
               </div>
-        <div class="container">
-            
-            <div class="page-header">
-                <h1>Últimos <small>productos agregados</small></h1>
-            </div>
-            <div class="row">
-                <?php
-                include 'library/configServer.php';
-                include 'library/consulSQL.php';
-                $consulta = ejecutarSQL::consultar("SELECT * FROM producto WHERE Stock > 0 AND Estado='Activo' ORDER BY id DESC /* LIMIT 7 */");
-                $totalproductos = mysqli_num_rows($consulta);
-                if ($totalproductos > 0) {
-                    while ($fila = mysqli_fetch_array($consulta, MYSQLI_ASSOC)) {
-                ?>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="thumbnail">
-                                <img class="img-product" src="assets/img-products/<?php if ($fila['Imagen'] != "" && is_file("./assets/img-products/" . $fila['Imagen'])) {
+              <div class="container">
+    <div class="page-header">
+        <h1>Nuestros Productos</h1>
+    </div>
+    <div class="row">
+        <?php
+        include 'library/configServer.php';
+        include 'library/consulSQL.php';
+        $consulta = ejecutarSQL::consultar("SELECT * FROM producto WHERE Stock > 0 AND Estado='Activo' ORDER BY id DESC /* LIMIT 7 */");
+        $totalproductos = mysqli_num_rows($consulta);
+        if ($totalproductos > 0) {
+            while ($fila = mysqli_fetch_array($consulta, MYSQLI_ASSOC)) {
+        ?>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="thumbnail product-card">
+                        <div class="img-container">
+                            <img class="img-product" src="assets/img-products/<?php if ($fila['Imagen'] != "" && is_file("./assets/img-products/" . $fila['Imagen'])) {
                                                                                         echo $fila['Imagen'];
                                                                                     } else {
                                                                                         echo "default.png";
                                                                                     } ?>">
-                                <div class="caption">
-                                    <h3><?php echo $fila['Marca']; ?></h3>
-                                    <p><?php echo $fila['NombreProd']; ?></p>
-                                    <?php if ($fila['Descuento'] > 0): ?>
-                                        <p>
-                                            <?php
-                                            $pref = number_format($fila['Precio'] - ($fila['Precio'] * ($fila['Descuento'] / 100)), 2, '.', '');
-                                            echo $fila['Descuento'] . "% descuento: S/." . $pref;
-                                            ?>
-                                        </p>
-                                    <?php else: ?>
-                                        <p>S/.<?php echo $fila['Precio']; ?></p>
-                                    <?php endif; ?>
-                                    <p class="text-center">
-                                        <a href="infoProd.php?CodigoProd=<?php echo $fila['CodigoProd']; ?>" class="btn btn-success btn-sm btn-raised btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
-                                    </p>
-                                </div>
-                            </div>
                         </div>
-                <?php
-                    }
-                } else {
-                    echo '<h2>No hay productos registrados en la tienda</h2>';
-                }
-                ?>
-            </div>
-        </div>
+                        <div class="caption">
+                            <h3 class="product-title"><?php echo $fila['Marca']; ?></h3>
+                            <p class="product-description"><?php echo $fila['NombreProd']; ?></p>
+                            <?php if ($fila['Descuento'] > 0): ?>
+                                <p class="product-price">
+                                    <?php
+                                    $pref = number_format($fila['Precio'] - ($fila['Precio'] * ($fila['Descuento'] / 100)), 2, '.', '');
+                                    echo $fila['Descuento'] . "% descuento: S/." . $pref;
+                                    ?>
+                                </p>
+                            <?php else: ?>
+                                <p class="product-price">S/.<?php echo $fila['Precio']; ?></p>
+                            <?php endif; ?>
+                            <p class="text-center">
+                                <a href="infoProd.php?CodigoProd=<?php echo $fila['CodigoProd']; ?>" class="btn btn-success btn-sm btn-raised btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        <?php
+            }
+        } else {
+            echo '<h2>No hay productos registrados en la tienda</h2>';
+        }
+        ?>
+    </div>
+</div>
+
+<style>
+    .product-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .img-container {
+        height: 200px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-container .img-product {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .product-card .caption {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .product-title {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+
+    .product-card .product-description {
+        flex-grow: 1;
+        margin: 10px 0;
+    }
+
+    .product-card .product-price {
+        margin-bottom: 10px;
+    }
+</style>
+
+
     </section>
     <section id="reg-info-index">
         <div class="container">
