@@ -1,6 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
+<style>
+    .product-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
+    .img-container {
+        height: 200px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-container .img-product {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .product-card .caption {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .product-title {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+
+    .product-card .product-description {
+        flex-grow: 1;
+        margin: 10px 0;
+    }
+
+    .product-card .product-price {
+        margin-bottom: 10px;
+    }
+</style>
 <head>
     <title>Inicio</title>
     <?php include './inc/link.php'; ?>
@@ -120,49 +162,7 @@
     </div>
 </div>
 
-<style>
-    .product-card {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
 
-    .img-container {
-        height: 200px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .img-container .img-product {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-    }
-
-    .product-card .caption {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .product-card .product-title {
-        font-size: 1.2em;
-        margin-top: 10px;
-    }
-
-    .product-card .product-description {
-        flex-grow: 1;
-        margin: 10px 0;
-    }
-
-    .product-card .product-price {
-        margin-bottom: 10px;
-    }
-</style>
 
 
     </section>

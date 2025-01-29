@@ -74,7 +74,7 @@ include './library/consulSQL.php';
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                                <input type="text" id="addon1" class="form-control" name="term" required=""  placeholder="Escriba nombre o marca del producto"  title="Escriba nombre o marca del producto">
+                                <input type="text" id="addon1" class="form-control" name="term" required="" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
                                 <span class="input-group-btn">
                                     <button class="btn btn-warning btn-raised" type="submit">Buscar</button>
                                 </span>
@@ -125,31 +125,31 @@ include './library/consulSQL.php';
             echo '</h3><br>';
             while ($prod = mysqli_fetch_array($consultar_productos, MYSQLI_ASSOC)) {
         ?>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img class="img-product" src="./assets/img-products/<?php if ($prod['Imagen'] != "" && is_file("./assets/img-products/" . $prod['Imagen'])) {
-                                                                            echo $prod['Imagen'];
-                                                                        } else {
-                                                                            echo "default.png";
-                                                                        } ?>
-                ">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="thumbnail product-card">
+                <div class="img-container">
+                    <img class="img-product" src="./assets/img-products/<?php if ($prod['Imagen'] != "" && is_file("./assets/img-products/" . $prod['Imagen'])) {
+                                                                                echo $prod['Imagen'];
+                                                                            } else {
+                                                                                echo "default.png";
+                                                                            } ?>">
+                </div>
                 <div class="caption">
-                    <h3><?php echo $prod['Marca']; ?></h3>
-                    <p><?php echo $prod['NombreProd']; ?></p>
+                    <h3 class="product-title"><?php echo $prod['Marca']; ?></h3>
+                    <p class="product-description"><?php echo $prod['NombreProd']; ?></p>
                     <?php if ($prod['Descuento'] > 0): ?>
-                    <p>
-                    <?php
-                    $pref = number_format($prod['Precio'] - ($prod['Precio'] * ($prod['Descuento'] / 100)), 2, '.', '');
-                    echo $prod['Descuento'] . "% descuento: S/." . $pref;
-                    ?>
+                    <p class="product-price">
+                        <?php
+                        $pref = number_format($prod['Precio'] - ($prod['Precio'] * ($prod['Descuento'] / 100)), 2, '.', '');
+                        echo $prod['Descuento'] . "% descuento: S/." . $pref;
+                        ?>
                     </p>
                     <?php else: ?>
-                    <p>$<?php echo $prod['Precio']; ?></p>
+                    <p class="product-price">S/.<?php echo $prod['Precio']; ?></p>
                     <?php endif; ?>
                     <p class="text-center">
                         <a href="infoProd.php?CodigoProd=<?php echo $prod['CodigoProd']; ?>" class="btn btn-primary btn-raised btn-sm btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
                     </p>
-
                 </div>
             </div>
         </div>
@@ -222,6 +222,51 @@ include './library/consulSQL.php';
         ?>
     </div>
 </section>
+
+<style>
+    .product-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .img-container {
+        height: 200px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img-container .img-product {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .product-card .caption {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .product-title {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+
+    .product-card .product-description {
+        flex-grow: 1;
+        margin: 10px 0;
+    }
+
+    .product-card .product-price {
+        margin-bottom: 10px;
+    }
+</style>
+
 
 
     <?php include './inc/footer.php'; ?>
