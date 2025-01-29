@@ -72,13 +72,18 @@ include './library/consulSQL.php';
                 </div>
                 <?php endif; } ?>
                 <div class="col-xs-12 col-md-4 col-md-offset-<?php echo !empty($categoria) ? '0' : '4'; ?>">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                            <input type="text" id="searchInput" class="form-control" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
+                    <form action="./search.php" method="GET">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                <input type="text" id="searchInput" class="form-control" name="term" required="" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-raised" type="submit">Buscar</button>
+                                </span>
+                            </div>
                         </div>
-                        <div id="searchResults" class="list-group"></div>
-                    </div>
+                    </form>
+                    <div id="searchResults" class="list-group"></div>
                 </div>
             </div>
         </div>
@@ -335,7 +340,6 @@ include './library/consulSQL.php';
         });
     });
 </script>
-
 
 
     <?php include './inc/footer.php'; ?>
