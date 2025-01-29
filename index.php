@@ -120,8 +120,8 @@
     <section id="new-prod-index">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-12 col-md-4 col-md-offset-4">
-                <form action="./search.php" method="GET">
+            <div class="col-xs-12 col-md-4 col-md-offset-<?php echo !empty($categoria) ? '0' : '4'; ?>">
+                    <form action="./search.php" method="GET">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
@@ -132,6 +132,7 @@
                             </div>
                         </div>
                     </form>
+                    <div id="searchResults" class="list-group"></div>
                 </div>
             </div>
         </div>
