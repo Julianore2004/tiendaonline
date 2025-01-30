@@ -171,8 +171,8 @@
                                     <?php else: ?>
                                         <p class="product-price">S/.<?php echo $fila['Precio']; ?></p>
                                     <?php endif; ?>
-                                    <p class="text-center">
-                                        <a href="infoProd.php?CodigoProd=<?php echo $fila['CodigoProd']; ?>" class="btn btn-success btn-sm btn-raised btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
+                                    <p class="text-center"> 
+                                        <a href="infoProd.php?CodigoProd=<?php echo $fila['CodigoProd']; ?>" class="btn btn-warning btn-sm btn-raised btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
                                     </p>
                                 </div>
                             </div>

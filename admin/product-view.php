@@ -24,14 +24,20 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
-                                <label class="control-label">Código de producto</label>
+                                <label class="control-label">Código de Tienda</label>
                                 <input type="text" class="form-control" required maxlength="30" name="prod-codigo">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
+                                <label class="control-label">Código de Producto</label>
+                                <input type="text" class="form-control" required maxlength="30" name="prod-codigodeproducto">
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                              <div class="form-group label-floating">
                                 <label class="control-label">Nombre de producto</label>
-                                <input type="text" class="form-control" required maxlength="30" name="prod-name">
+                                <input type="text" class="form-control" required maxlength="100" name="prod-name">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -62,6 +68,12 @@
                               <div class="form-group label-floating">
                                 <label class="control-label">Unidades disponibles</label>
                                 <input type="text" class="form-control" required maxlength="20" pattern="[0-9]{1,20}" name="prod-stock">
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                              <div class="form-group label-floating">
+                                <label class="control-label">Condición</label>
+                                <input type="text" class="form-control" required maxlength="30" name="prod-condicion">
                               </div>
                             </div>
                             <div class="col-xs-12">
@@ -128,6 +140,6 @@
                 <p class="text-center"><button type="submit" class="btn btn-primary btn-raised">Agregar a la tienda</button></p>
                 </form>
             </div>
-        </div>     
+        </div>
     </div>
 </div>

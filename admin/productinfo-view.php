@@ -30,14 +30,20 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="form-group label-floating">
-                  <label class="control-label">Código de producto</label>
+                  <label class="control-label">Código de Tienda</label>
                   <input type="text" class="form-control" value="<?php echo $prod['CodigoProd']; ?>" required maxlength="30" readonly name="prod-codigo">
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="form-group label-floating">
+                  <label class="control-label">Código de Producto</label>
+                  <input type="text" class="form-control" value="<?php echo $prod['CodigoDeProducto']; ?>" required maxlength="30" name="prod-codigodeproducto">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="form-group label-floating">
                   <label class="control-label">Nombre de producto</label>
-                  <input type="text" class="form-control" value="<?php echo $prod['NombreProd']; ?>" required maxlength="30" name="prod-name">
+                  <input type="text" class="form-control" value="<?php echo $prod['NombreProd']; ?>" required maxlength="100" name="prod-name">
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-4">
@@ -68,6 +74,12 @@
                 <div class="form-group label-floating">
                   <label class="control-label">Unidades disponibles</label>
                   <input type="text" class="form-control" value="<?php echo $prod['Stock']; ?>" required maxlength="20" pattern="[0-9]{1,20}" name="prod-stock">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="form-group label-floating">
+                  <label class="control-label">Condición</label>
+                  <input type="text" class="form-control" value="<?php echo $prod['Condicion']; ?>" required maxlength="30" name="prod-condicion">
                 </div>
               </div>
               <div class="col-xs-12">

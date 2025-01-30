@@ -24,13 +24,15 @@
                         <thead class="">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Código</th>
+                                <th class="text-center">Código de Tienda</th>
+                                <th class="text-center">Código de Producto</th>
                                 <th class="text-center">Nombre</th>
                                 <th class="text-center">Categoría</th>
                                 <th class="text-center">Precio</th>
                                 <th class="text-center">Modelo</th>
                                 <th class="text-center">Marca</th>
                                 <th class="text-center">Stock</th>
+                                <th class="text-center">Condición</th>
                                 <th class="text-center">Proveedor</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Actualizar</th>
@@ -59,6 +61,7 @@
                                 <tr>
                                     <td class="text-center"><?php echo $cr; ?></td>
                                     <td class="text-center"><?php echo $prod['CodigoProd']; ?></td>
+                                    <td class="text-center"><?php echo $prod['CodigoDeProducto']; ?></td>
                                     <td class="text-center"><?php echo $prod['NombreProd']; ?></td>
                                     <td class="text-center">
                                         <?php
@@ -71,6 +74,7 @@
                                     <td class="text-center"><?php echo $prod['Modelo']; ?></td>
                                     <td class="text-center"><?php echo $prod['Marca']; ?></td>
                                     <td class="text-center"><?php echo $prod['Stock']; ?></td>
+                                    <td class="text-center"><?php echo $prod['Condicion']; ?></td>
                                     <td class="text-center">
                                         <?php
                                         $prov = ejecutarSQL::consultar("SELECT NombreProveedor FROM proveedor WHERE NITProveedor='" . $prod['NITProveedor'] . "'");
@@ -115,7 +119,6 @@
                                 </li>
                             <?php endif; ?>
 
-
                             <?php
                             for ($i = 1; $i <= $numeropaginas; $i++) {
                                 if ($pagina == $i) {
@@ -125,7 +128,6 @@
                                 }
                             }
                             ?>
-
 
                             <?php if ($pagina == $numeropaginas): ?>
                                 <li class="disabled">

@@ -94,7 +94,7 @@ include './library/consulSQL.php';
                         <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                         <input type="text" id="searchInput" class="form-control" name="term" required="" placeholder="Escriba nombre o marca del producto" title="Escriba nombre o marca del producto">
                         <span class="input-group-btn">
-                            <button class="btn btn-info btn-raised" type="submit">Buscar</button>
+                        <button class="btn btn-warning btn-raised" type="submit">Buscar</button>
                         </span>
                       </div>
                     </div>
@@ -138,7 +138,7 @@ include './library/consulSQL.php';
                                <p class="product-description"><?php echo $prod['NombreProd']; ?></p>
                                <p class="product-price">$<?php echo $prod['Precio']; ?></p>
                                <p class="text-center">
-                                   <a href="infoProd.php?CodigoProd=<?php echo $prod['CodigoProd']; ?>" class="btn btn-primary btn-raised btn-sm btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
+                                   <a href="infoProd.php?CodigoProd=<?php echo $prod['CodigoProd']; ?>" class="btn btn-warning btn-raised btn-sm btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
                                </p>
                              </div>
                            </div>
