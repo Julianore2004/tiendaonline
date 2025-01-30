@@ -31,7 +31,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Código de Producto</label>
-                                <input type="text" class="form-control" required maxlength="30" name="prod-codigodeproducto">
+                                <input type="text" class="form-control"  maxlength="30" name="prod-codigodeproducto">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -49,7 +49,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Modelo</label>
-                                <input type="text" class="form-control" required name="prod-model">
+                                <input type="text" class="form-control"  name="prod-model">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
