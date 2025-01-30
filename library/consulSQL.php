@@ -3,6 +3,7 @@
 class ejecutarSQL {
     public static function conectar() {
         if (!$con = mysqli_connect(SERVER, USER, PASS, BD)) {
+            error_log("Error en el servidor, verifique sus datos: " . mysqli_connect_error());
             echo "Error en el servidor, verifique sus datos";
         }
         /* Codificar la información de la base de datos a UTF8*/
@@ -12,6 +13,7 @@ class ejecutarSQL {
 
     public static function consultar($query) {
         if (!$consul = mysqli_query(ejecutarSQL::conectar(), $query)) {
+            error_log("Error en la consulta SQL ejecutada: " . mysqli_error(ejecutarSQL::conectar()));
             echo 'Error en la consulta SQL ejecutada';
         }
         return $consul;
@@ -22,6 +24,7 @@ class ejecutarSQL {
 class consultasSQL {
     public static function InsertSQL($tabla, $campos, $valores) {
         if (!$consul = ejecutarSQL::consultar("INSERT INTO $tabla ($campos) VALUES($valores)")) {
+            error_log("Ha ocurrido un error al insertar los datos en la tabla: " . mysqli_error(ejecutarSQL::conectar()));
             die("Ha ocurrido un error al insertar los datos en la tabla");
         }
         return $consul;
@@ -29,6 +32,7 @@ class consultasSQL {
 
     public static function DeleteSQL($tabla, $condicion) {
         if (!$consul = ejecutarSQL::consultar("DELETE FROM $tabla WHERE $condicion")) {
+            error_log("Ha ocurrido un error al eliminar los registros en la tabla: " . mysqli_error(ejecutarSQL::conectar()));
             die("Ha ocurrido un error al eliminar los registros en la tabla");
         }
         return $consul;
@@ -36,6 +40,7 @@ class consultasSQL {
 
     public static function UpdateSQL($tabla, $campos, $condicion) {
         if (!$consul = ejecutarSQL::consultar("UPDATE $tabla SET $campos WHERE $condicion")) {
+            error_log("Ha ocurrido un error al actualizar los datos en la tabla: " . mysqli_error(ejecutarSQL::conectar()));
             die("Ha ocurrido un error al actualizar los datos en la tabla");
         }
         return $consul;

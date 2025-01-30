@@ -58,9 +58,11 @@ if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" &&
                             });
                         </script>';
                     } else {
+                        error_log("Error al insertar el producto en la base de datos: " . mysqli_error(ejecutarSQL::conectar()));
                         echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
                     }
                 } else {
+                    error_log("Error al cargar la imagen: " . $_FILES['img']['error']);
                     echo '<script>swal("ERROR", "Ha ocurrido un error al cargar la imagen", "error");</script>';
                 }
             } else {
