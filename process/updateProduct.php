@@ -20,6 +20,7 @@ $imgName = $_FILES['img']['name'];
 $imgType = $_FILES['img']['type'];
 $imgSize = $_FILES['img']['size'];
 $imgMaxSize = 5120;
+$imgFinalName = '';
 
 if ($imgName != "") {
     if ($imgType == "image/jpeg" || $imgType == "image/png") {
@@ -48,7 +49,13 @@ if ($imgName != "") {
     }
 }
 
-if (consultasSQL::UpdateSQL("producto", "NombreProd='$nameProdUp',CodigoCat='$catProdUp',Precio='$priceProdUp',Descuento='$descProdUp',Modelo='$modelProdUp',Marca='$marcaProdUp',Stock='$stockProdUp',NITProveedor='$proveProdUp',Estado='$EstadoProdUp',Condicion='$condicionProdUp',CodigoDeProducto='$codigoDeProductoUp'", "CodigoProd='$codeOldProdUp'")) {
+$updateQuery = "NombreProd='$nameProdUp',CodigoCat='$catProdUp',Precio='$priceProdUp',Descuento='$descProdUp',Modelo='$modelProdUp',Marca='$marcaProdUp',Stock='$stockProdUp',NITProveedor='$proveProdUp',Estado='$EstadoProdUp',Condicion='$condicionProdUp',CodigoDeProducto='$codigoDeProductoUp'";
+
+if ($imgFinalName != '') {
+    $updateQuery .= ", Imagen='$imgFinalName'";
+}
+
+if (consultasSQL::UpdateSQL("producto", $updateQuery, "CodigoProd='$codeOldProdUp'")) {
     echo '<script>
     swal({
       title: "Producto actualizado",
