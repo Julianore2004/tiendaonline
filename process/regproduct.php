@@ -3,6 +3,11 @@ session_start();
 include '../library/configServer.php';
 include '../library/consulSQL.php';
 
+// Activar la visualización de errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $codeProd = consultasSQL::clean_string($_POST['prod-codigo']);
 $codigoDeProducto = consultasSQL::clean_string($_POST['prod-codigodeproducto']);
 $nameProd = consultasSQL::clean_string($_POST['prod-name']);
@@ -27,7 +32,7 @@ if ($codeProd != "") {
     if ($verificaltotal <= 0) {
         if ($imgType == "image/jpeg" || $imgType == "image/png") {
             if (($imgSize / 1024) <= $imgMaxSize) {
-                chmod('../assets/img-products/', 0777);
+                chmod('../assets/img-products/', 0755);
                 switch ($imgType) {
                     case 'image/jpeg':
                         $imgEx = ".jpg";
@@ -60,7 +65,7 @@ if ($codeProd != "") {
                             });
                         </script>';
                     } else {
-                        echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+                        echo '<script>swal("ERROR", "Ocurrió un error inesperado al insertar en la base de datos, por favor intente nuevamente", "error");</script>';
                     }
                 } else {
                     echo '<script>swal("ERROR", "Ha ocurrido un error al cargar la imagen", "error");</script>';
