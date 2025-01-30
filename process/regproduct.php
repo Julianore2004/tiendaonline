@@ -21,7 +21,7 @@ $imgType = $_FILES['img']['type'];
 $imgSize = $_FILES['img']['size'];
 $imgMaxSize = 5120;
 
-if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" && $modelProd != "" && $marcaProd != "" && $stockProd != "" && $codePProd != "" && $condicionProd != "") {
+if ($codeProd != "") {
     $verificar = ejecutarSQL::consultar("SELECT * FROM producto WHERE CodigoProd='" . $codeProd . "'");
     $verificaltotal = mysqli_num_rows($verificar);
     if ($verificaltotal <= 0) {
@@ -75,5 +75,5 @@ if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" &&
         echo '<script>swal("ERROR", "El código de producto que acaba de ingresar ya está registrado en el sistema, por favor ingrese otro código de producto distinto", "error");</script>';
     }
 } else {
-    echo '<script>swal("ERROR", "Los campos no deben de estar vacíos, por favor verifique e intente nuevamente", "error");</script>';
+    echo '<script>swal("ERROR", "El código de tienda no debe estar vacío, por favor verifique e intente nuevamente", "error");</script>';
 }
