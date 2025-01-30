@@ -12,7 +12,7 @@
     </li>
 </ul>
 <div class="container">
-    <div class="row">
+	<div class="row">
         <div class="col-xs-12">
             <div class="container-form-admin">
                 <h3 class="text-primary text-center">Agregar un producto a la tienda</h3>
@@ -25,55 +25,55 @@
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Código de Tienda</label>
-                                <input type="text" class="form-control" maxlength="30" name="prod-codigo">
+                                <input type="text" class="form-control" required maxlength="30" name="prod-codigo">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Código de Producto</label>
-                                <input type="text" class="form-control" maxlength="30" name="prod-codigodeproducto">
+                                <input type="text" class="form-control"  maxlength="30" name="prod-codigodeproducto">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Nombre de producto</label>
-                                <input type="text" class="form-control" maxlength="100" name="prod-name">
+                                <input type="text" class="form-control" required maxlength="100" name="prod-name">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Marca</label>
-                                <input type="text" class="form-control" name="prod-marca">
+                                <input type="text" class="form-control" required name="prod-marca">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Modelo</label>
-                                <input type="text" class="form-control" name="prod-model">
+                                <input type="text" class="form-control"  name="prod-model">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Precio</label>
-                                <input type="text" class="form-control" maxlength="20" pattern="[0-9.]{1,20}" name="prod-price">
+                                <input type="text" class="form-control"  maxlength="20" pattern="[0-9.]{1,20}" name="prod-price">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Descuento (%)</label>
-                                <input type="text" class="form-control" maxlength="2" pattern="[0-9]{1,2}" name="prod-desc-price" value="0">
+                                <input type="text" class="form-control" required maxlength="2" pattern="[0-9]{1,2}" name="prod-desc-price" value="0">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Unidades disponibles</label>
-                                <input type="text" class="form-control" maxlength="20" pattern="[0-9]{1,20}" name="prod-stock">
+                                <input type="text" class="form-control" required maxlength="20" pattern="[0-9]{1,20}" name="prod-stock">
                               </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                               <div class="form-group label-floating">
                                 <label class="control-label">Condición</label>
-                                <input type="text" class="form-control" maxlength="30" name="prod-condicion">
+                                <input type="text" class="form-control" required maxlength="30" name="prod-condicion">
                               </div>
                             </div>
                             <div class="col-xs-12">
@@ -84,9 +84,9 @@
                                 <label>Categoría</label>
                                 <select class="form-control" name="prod-categoria">
                                     <?php
-                                        $categoriac = ejecutarSQL::consultar("SELECT * FROM categoria");
-                                        while ($catec = mysqli_fetch_array($categoriac, MYSQLI_ASSOC)) {
-                                            echo '<option value="' . $catec['CodigoCat'] . '">' . $catec['Nombre'] . '</option>';
+                                        $categoriac= ejecutarSQL::consultar("SELECT * FROM categoria");
+                                        while($catec=mysqli_fetch_array($categoriac, MYSQLI_ASSOC)){
+                                            echo '<option value="'.$catec['CodigoCat'].'">'.$catec['Nombre'].'</option>';
                                         }
                                     ?>
                                 </select>
@@ -97,9 +97,9 @@
                                 <label>Proveedor</label>
                                 <select class="form-control" name="prod-codigoP">
                                     <?php
-                                        $proveedoresc = ejecutarSQL::consultar("SELECT * FROM proveedor");
-                                        while ($provc = mysqli_fetch_array($proveedoresc, MYSQLI_ASSOC)) {
-                                            echo '<option value="' . $provc['NITProveedor'] . '">' . $provc['NombreProveedor'] . '</option>';
+                                        $proveedoresc=  ejecutarSQL::consultar("SELECT * FROM proveedor");
+                                        while($provc=mysqli_fetch_array($proveedoresc, MYSQLI_ASSOC)){
+                                            echo '<option value="'.$provc['NITProveedor'].'">'.$provc['NombreProveedor'].'</option>';
                                         }
                                     ?>
                                 </select>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                <input type="hidden" name="admin-name" value="<?php echo $_SESSION['nombreAdmin'] ?>">
+                <input type="hidden"  name="admin-name" value="<?php echo $_SESSION['nombreAdmin'] ?>">
                 <p class="text-center"><button type="submit" class="btn btn-primary btn-raised">Agregar a la tienda</button></p>
                 </form>
             </div>
