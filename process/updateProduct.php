@@ -22,6 +22,10 @@ $imgSize = $_FILES['img']['size'];
 $imgMaxSize = 5120;
 $imgFinalName = '';
 
+// Obtener la ruta de la imagen actual
+$currentProduct = ejecutarSQL::consultar("SELECT Imagen FROM producto WHERE CodigoProd='$codeOldProdUp'");
+$currentImg = mysqli_fetch_array($currentProduct, MYSQLI_ASSOC)['Imagen'];
+
 if ($imgName != "") {
     if ($imgType == "image/jpeg" || $imgType == "image/png") {
         if (($imgSize / 1024) <= $imgMaxSize) {
@@ -35,7 +39,12 @@ if ($imgName != "") {
                     break;
             }
             $imgFinalName = $codeOldProdUp . $imgEx;
-            if (!move_uploaded_file($_FILES['img']['tmp_name'], "../assets/img-products/" . $imgFinalName)) {
+            if (move_uploaded_file($_FILES['img']['tmp_name'], "../assets/img-products/" . $imgFinalName)) {
+                // Eliminar la imagen anterior si existe
+                if ($currentImg && file_exists("../assets/img-products/" . $currentImg)) {
+                    unlink("../assets/img-products/" . $currentImg);
+                }
+            } else {
                 echo '<script>swal("ERROR", "Ha ocurrido un error al cargar la imagen", "error");</script>';
                 exit();
             }
