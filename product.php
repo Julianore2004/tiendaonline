@@ -258,11 +258,17 @@ include './library/consulSQL.php';
     .product-card .product-title {
         font-size: 1.2em;
         margin-top: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .product-card .product-description {
         flex-grow: 1;
         margin: 10px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .product-card .product-price {
@@ -340,7 +346,6 @@ include './library/consulSQL.php';
         });
     });
 </script>
-
 
     <?php include './inc/footer.php'; ?>
 </body>
