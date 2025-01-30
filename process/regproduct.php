@@ -4,6 +4,7 @@ include '../library/configServer.php';
 include '../library/consulSQL.php';
 
 $codeProd = consultasSQL::clean_string($_POST['prod-codigo']);
+$codeDeProd = consultasSQL::clean_string($_POST['prod-codigodeproducto']); // Asegúrate de obtener este valor
 $nameProd = consultasSQL::clean_string($_POST['prod-name']);
 $cateProd = consultasSQL::clean_string($_POST['prod-categoria']);
 $priceProd = consultasSQL::clean_string($_POST['prod-price']);
@@ -14,12 +15,13 @@ $codePProd = consultasSQL::clean_string($_POST['prod-codigoP']);
 $estadoProd = consultasSQL::clean_string($_POST['prod-estado']);
 $adminProd = consultasSQL::clean_string($_POST['admin-name']);
 $descProd = consultasSQL::clean_string($_POST['prod-desc-price']);
+$condicionProd = consultasSQL::clean_string($_POST['prod-condicion']); // Asegúrate de obtener este valor
 $imgName = $_FILES['img']['name'];
 $imgType = $_FILES['img']['type'];
 $imgSize = $_FILES['img']['size'];
 $imgMaxSize = 5120;
 
-if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" && $modelProd != "" && $marcaProd != "" && $stockProd != "" && $codePProd != "") {
+if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" && $modelProd != "" && $marcaProd != "" && $stockProd != "" && $codePProd != "" && $codeDeProd != "" && $condicionProd != "") {
     $verificar = ejecutarSQL::consultar("SELECT * FROM producto WHERE CodigoProd='" . $codeProd . "'");
     $verificaltotal = mysqli_num_rows($verificar);
     if ($verificaltotal <= 0) {
@@ -36,7 +38,7 @@ if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" &&
                 }
                 $imgFinalName = $codeProd . $imgEx;
                 if (move_uploaded_file($_FILES['img']['tmp_name'], "../assets/img-products/" . $imgFinalName)) {
-                    if (consultasSQL::InsertSQL("producto", "CodigoProd, NombreProd, CodigoCat, Precio, Descuento, Modelo, Marca, Stock, NITProveedor, Imagen, Nombre, Estado", "'$codeProd','$nameProd','$cateProd','$priceProd', '$descProd', '$modelProd','$marcaProd','$stockProd','$codePProd','$imgFinalName','$adminProd', '$estadoProd'")) {
+                    if (consultasSQL::InsertSQL("producto", "CodigoProd, CodigoDeProducto, NombreProd, CodigoCat, Precio, Descuento, Modelo, Marca, Stock, NITProveedor, Imagen, Nombre, Estado, Condicion", "'$codeProd','$codeDeProd','$nameProd','$cateProd','$priceProd', '$descProd', '$modelProd','$marcaProd','$stockProd','$codePProd','$imgFinalName','$adminProd', '$estadoProd', '$condicionProd'")) {
                         echo '<script>
                             swal({
                               title: "Producto registrado",
