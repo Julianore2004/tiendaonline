@@ -35,11 +35,17 @@
         .product-card .product-title {
             font-size: 1.2em;
             margin-top: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .product-card .product-description {
             flex-grow: 1;
             margin: 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .product-card .product-price {
@@ -120,7 +126,7 @@
     <section id="new-prod-index">
         <div class="container-fluid">
             <div class="row">
-            <div class="col-xs-12 col-md-4 col-md-offset-<?php echo !empty($categoria) ? '0' : '4'; ?>">
+                <div class="col-xs-12 col-md-4 col-md-offset-<?php echo !empty($categoria) ? '0' : '4'; ?>">
                     <form action="./search.php" method="GET">
                         <div class="form-group">
                             <div class="input-group">
@@ -171,7 +177,7 @@
                                     <?php else: ?>
                                         <p class="product-price">S/.<?php echo $fila['Precio']; ?></p>
                                     <?php endif; ?>
-                                    <p class="text-center"> 
+                                    <p class="text-center">
                                         <a href="infoProd.php?CodigoProd=<?php echo $fila['CodigoProd']; ?>" class="btn btn-warning btn-sm btn-raised btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
                                     </p>
                                 </div>
