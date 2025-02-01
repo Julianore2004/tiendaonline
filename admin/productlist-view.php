@@ -1,5 +1,5 @@
 <p class="lead">
-    Lista de todos los productos agregados en la tienda virtual, aqui puedes editar y elminar productos.
+    Lista de todos los productos agregados en la tienda virtual, aqui puedes editar y eliminar productos.
 </p>
 <ul class="breadcrumb" style="margin-bottom: 5px;">
     <li>
@@ -18,6 +18,15 @@
             <div class="panel panel-info">
                 <div class="panel-heading text-center">
                     <h4>Productos en tienda</h4>
+                </div>
+                <div class="panel-body">
+                    <form method="GET" action="configAdmin.php" class="form-inline">
+                        <input type="hidden" name="view" value="productlist">
+                        <div class="form-group">
+                            <input type="text" name="search" class="form-control" placeholder="Buscar por Código o Nombre" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </form>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -48,7 +57,13 @@
                             $regpagina = 30;
                             $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
 
-                            $productos = mysqli_query($mysqli, "SELECT SQL_CALC_FOUND_ROWS * FROM producto LIMIT $inicio, $regpagina");
+                            $search = isset($_GET['search']) ? mysqli_real_escape_string($mysqli, $_GET['search']) : '';
+                            $where = '';
+                            if (!empty($search)) {
+                                $where = "WHERE CodigoProd LIKE '%$search%' OR NombreProd LIKE '%$search%'";
+                            }
+
+                            $productos = mysqli_query($mysqli, "SELECT SQL_CALC_FOUND_ROWS * FROM producto $where LIMIT $inicio, $regpagina");
 
                             $totalregistros = mysqli_query($mysqli, "SELECT FOUND_ROWS()");
                             $totalregistros = mysqli_fetch_array($totalregistros, MYSQLI_ASSOC);
@@ -113,7 +128,7 @@
                                 </li>
                             <?php else: ?>
                                 <li>
-                                    <a href="configAdmin.php?view=productlist&pag=<?php echo $pagina - 1; ?>">
+                                    <a href="configAdmin.php?view=productlist&pag=<?php echo $pagina - 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -122,9 +137,9 @@
                             <?php
                             for ($i = 1; $i <= $numeropaginas; $i++) {
                                 if ($pagina == $i) {
-                                    echo '<li class="active"><a href="configAdmin.php?view=productlist&pag=' . $i . '">' . $i . '</a></li>';
+                                    echo '<li class="active"><a href="configAdmin.php?view=productlist&pag=' . $i . '&search=' . urlencode($search) . '">' . $i . '</a></li>';
                                 } else {
-                                    echo '<li><a href="configAdmin.php?view=productlist&pag=' . $i . '">' . $i . '</a></li>';
+                                    echo '<li><a href="configAdmin.php?view=productlist&pag=' . $i . '&search=' . urlencode($search) . '">' . $i . '</a></li>';
                                 }
                             }
                             ?>
@@ -137,7 +152,7 @@
                                 </li>
                             <?php else: ?>
                                 <li>
-                                    <a href="configAdmin.php?view=productlist&pag=<?php echo $pagina + 1; ?>">
+                                    <a href="configAdmin.php?view=productlist&pag=<?php echo $pagina + 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
