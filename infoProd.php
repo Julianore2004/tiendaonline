@@ -148,7 +148,7 @@ include './library/consulSQL.php';
         }
 
         .quantity-buttons {
-            width: 30%;
+            width: 19%;
             display: flex;
             align-items: center;
             border: 1px solid #ccc;
@@ -186,7 +186,7 @@ include './library/consulSQL.php';
             }
         }
        #carro{
-        width: 70%;
+        width: 81%;
        }
     </style>
 </head>
