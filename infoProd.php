@@ -47,6 +47,7 @@ include './library/consulSQL.php';
 
         .product-info {
             padding: 20px;
+            padding-top: 50px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -54,11 +55,13 @@ include './library/consulSQL.php';
 
         .product-info h2 {
             margin-top: 0;
+            margin-bottom: 15px;
             color: #343a40;
         }
 
         .product-info h4 {
             margin: 10px 0;
+            margin-bottom: 15px;
             color: #6c757d;
         }
 
@@ -95,7 +98,7 @@ include './library/consulSQL.php';
 
         .product-info .stock-container .stock {
             font-size: 18px;
-            color: #28a745;
+            color:rgb(107, 104, 104);
         }
 
         .product-info .stock-container .out-of-stock {
