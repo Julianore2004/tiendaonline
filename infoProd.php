@@ -41,7 +41,7 @@ include './library/consulSQL.php';
         }
 
         .product-info {
-            margin-top: 20PX;
+            margin-top: 30PX;
             flex: 1;
             padding: 20px;
             background-color: #fff;
