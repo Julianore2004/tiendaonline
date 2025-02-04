@@ -32,6 +32,7 @@ include './library/consulSQL.php';
             justify-content: space-around;
             gap: 20px;
             max-width: 1200px;
+            margin: auto;
         }
 
         .product-image {
@@ -39,21 +40,22 @@ include './library/consulSQL.php';
             display: flex;
             justify-content: center;
             align-items: center;
-            
-        }
-
-        .product-info {
-           
-            flex: 1;
-            padding: 50px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .product-image img {
-            max-width: 100%;
+            max-width: 520px;
+            max-height: 520px;
+            width: auto;
             height: auto;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .product-info h2 {
@@ -141,6 +143,7 @@ include './library/consulSQL.php';
             align-items: center;
             margin-top: 20px;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         .add-to-cart-container {
@@ -257,7 +260,7 @@ include './library/consulSQL.php';
         }
 
         #carro {
-            width: 60%;
+            width: 100%;
         }
 
         .productseparado h4 {
@@ -293,6 +296,27 @@ include './library/consulSQL.php';
         .btn-success:hover {
             background-color: #e74c3c;
             border-color: #e74c3c;
+        }
+
+        .add-to-cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .add-to-cart-container .quantity-buttons {
+            flex: 1;
+        }
+
+        .add-to-cart-container #carro {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .product-image img {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
@@ -344,16 +368,15 @@ include './library/consulSQL.php';
                             echo '<form action="process/carrito.php" method="POST" class="FormCatElec add-to-cart" data-form="">
                                                 <input type="hidden" value="' . $fila['CodigoProd'] . '" name="codigo">
                                                 <div class="add-to-cart-container">
-                                                   <div class="quantity-buttons">
-    <button type="button" onclick="decrementQuantity()">-</button>
-    <input type="number" id="quantity" name="cantidad" value="1" min="1" max="' . $fila['Stock'] . '" readonly>
-    <button type="button" onclick="incrementQuantity()">+</button>
-</div>
-
-                                                    <div id="carro">
-                                                    <button  class=" btn-lg btn-raised btn-success btn-block"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp; Añadir al carrito</button>
-                                                </div>
+                                                    <div class="quantity-buttons">
+                                                        <button type="button" onclick="decrementQuantity()">-</button>
+                                                        <input type="number" id="quantity" name="cantidad" value="1" min="1" max="' . $fila['Stock'] . '" readonly>
+                                                        <button type="button" onclick="incrementQuantity()">+</button>
                                                     </div>
+                                                    <div id="carro">
+                                                        <button class="btn-lg btn-raised btn-success btn-block"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp; Añadir al carrito</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                             <div class="ResForm"></div>';
                         } else {
