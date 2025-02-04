@@ -51,6 +51,7 @@ include './library/consulSQL.php';
         }
 
         .product-info {
+
             flex: 1;
             padding: 20px;
             background-color: #fff;
@@ -59,7 +60,7 @@ include './library/consulSQL.php';
         }
 
         .product-info h2 {
-            margin-top: 0;
+            margin-top: 20px;
             margin-bottom: 15px;
         }
 
