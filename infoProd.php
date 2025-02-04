@@ -30,6 +30,8 @@ include './library/consulSQL.php';
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
+            gap: 20px;
+            max-width: 1200px;
         }
 
         .product-image {
@@ -37,11 +39,11 @@ include './library/consulSQL.php';
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            
         }
 
         .product-info {
-            margin-top: 30PX;
+           
             flex: 1;
             padding: 50px;
             background-color: #fff;
