@@ -43,8 +43,8 @@ include './library/consulSQL.php';
         }
 
         .product-image img {
-            max-width: 520px;
-            max-height: 520px;
+            max-width: 500px;
+            max-height: 500px;
             width: auto;
             height: auto;
             object-fit: contain;
