@@ -3,82 +3,198 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 error_reporting(E_PARSE);
+
+// Conexión a la base de datos
+$servername = "localhost";  
+$username = "root";
+$password = "guardian.tale3";
+$dbname = "tddiego";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Consulta para obtener las categorías
+$sql = "SELECT CodigoCat, Nombre FROM categoria";
+$result = $conn->query($sql);
 ?>
-<nav id="navbar-auto-hidden" class="menu-nav">
-    <div class="row hidden-xs">
-        <div class="col-xs-4">
-            <p class="text-navbar tittles-pages-logo">Xtreme AI</p>
+
+<style>
+    .navbar-container {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 10px 0;
+    }
+    
+    .top-section {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+    }
+    
+    .brand-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        line-height: 40px;
+    }
+    
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-box {
+        width: 100%;
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    
+    .nav-links {
+        display: flex;
+        justify-content: flex-start;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav-links li {
+        margin-right: 20px;
+    }
+    
+    .nav-links a {
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        min-width: 160px;
+        padding: 5px 0;
+        background-color: #fff;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .top-section {
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            flex-direction: column;
+        }
+        
+        .nav-links li {
+            margin: 5px 0;
+        }
+    }
+</style>
+
+<nav class="navbar-container">
+    <div class="container">
+        <!-- Sección superior -->
+        <div class="row top-section">
+            <div class="col-md-3">
+                <h1 class="brand-name">Xtreme AI</h1>
+            </div>
+            <div class="col-md-6">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Buscar...">
+                    <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <div class="col-md-3 text-right">
+                <?php
+                if (!empty($_SESSION['nombreAdmin'])) {
+                    echo '
+                        <a href="#!" class="btn btn-link exit-system">
+                            <i class="fa fa-user"></i> '.$_SESSION['nombreAdmin'].'
+                        </a>
+                    ';
+                } elseif (!empty($_SESSION['nombreUser'])) {
+                    echo '
+                        <a href="#!" class="btn btn-link exit-system">
+                            <i class="fa fa-user"></i> '.$_SESSION['nombreUser'].'
+                        </a>
+                        <a href="#!" class="btn btn-link userConBtn" data-code="'.$_SESSION['UserNIT'].'">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </a>
+                    ';
+                } else {
+                    echo '
+                        <a href="#" class="btn btn-link" data-toggle="modal" data-target=".modal-login">
+                            <i class="fa fa-user"></i> Iniciar Sesión
+                        </a>
+                    ';
+                }
+                ?>
+            </div>
         </div>
-        <div class="col-xs-8">
-            <div class="contenedor-tabla pull-right">
-                <div class="contenedor-tr">
-                    <a href="index.php" class="table-cell-td">Inicio</a>
-                    <a href="product.php" class="table-cell-td">Productos</a>
+        
+        <!-- Sección de navegación -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav-links">
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="product.php">Productos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Categorías</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="product.php">Todas las categorías</a></li>
+                            <li role="separator" class="divider"></li>
+                            <?php
+                            if ($result->num_rows > 0) {
+                                while($row = $result->fetch_assoc()) {
+                                    echo '<li><a href="product.php?categ=' . $row["CodigoCat"] . '">' . $row["Nombre"] . '</a></li>';
+                                }
+                            } else {
+                                echo '<li><a href="#">No hay categorías disponibles</a></li>';
+                            }
+                            ?>
+                        </ul>
+                    </li>
                     <?php
                     if (!empty($_SESSION['nombreAdmin'])) {
                         echo '
-                            <a href="carrito.php" class="table-cell-td">Carrito</a>
-                            <a href="configAdmin.php" class="table-cell-td">Administración</a>
-                            <a href="#!" class="table-cell-td exit-system">
-                                <i class="fa fa-user"></i>&nbsp;&nbsp;'.$_SESSION['nombreAdmin'].'
-                            </a>
+                            <li><a href="carrito.php">Carrito</a></li>
+                            <li><a href="configAdmin.php">Administración</a></li>
                         ';
                     } elseif (!empty($_SESSION['nombreUser'])) {
                         echo '
-                            <a href="pedido.php" class="table-cell-td">Pedido</a>
-                            <a href="carrito.php" class="table-cell-td">Carrito</a>
-                            <a href="#!" class="table-cell-td exit-system">
-                                <i class="fa fa-user"></i>&nbsp;&nbsp;'.$_SESSION['nombreUser'].'
-                            </a>
-                            <a href="#!" class="table-cell-td userConBtn" data-code="'.$_SESSION['UserNIT'].'">
-                                <i class="glyphicon glyphicon-cog"></i>
-                            </a>
+                            <li><a href="pedido.php">Pedido</a></li>
+                            <li><a href="carrito.php">Carrito</a></li>
                         ';
                     } else {
-                        echo '
-                            <a href="registration.php" class="table-cell-td">Registro</a>
-                            <a href="#" class="table-cell-td" data-toggle="modal" data-target=".modal-login">
-                                <i class="fa fa-user"></i>&nbsp;&nbsp;Login
-                            </a>
-                        ';
+                        echo '<li><a href="registration.php">Registro</a></li>';
                     }
                     ?>
-                </div>
+                </ul>
             </div>
-        </div>
-    </div>
-
-    <div class="row visible-xs">
-        <div class="col-xs-12">
-            <button class="btn btn-default pull-left button-mobile-menu" id="btn-mobile-menu">
-                <i class="fa fa-th-list"></i>&nbsp;&nbsp;Menú
-            </button>
-
-            <?php
-            if (!empty($_SESSION['nombreAdmin'])) {
-                echo '
-                    <a href="#" id="button-login-xs" class="elements-nav-xs exit-system">
-                        <i class="fa fa-user"></i>&nbsp; '.$_SESSION['nombreAdmin'].'
-                    </a>
-                ';
-            } elseif (!empty($_SESSION['nombreUser'])) {
-                echo '
-                    <a href="#" id="button-login-xs" class="elements-nav-xs exit-system">
-                        <i class="fa fa-user"></i>&nbsp; '.$_SESSION['nombreUser'].'
-                    </a>
-                ';
-            } else {
-                echo '
-                    <a href="#" data-toggle="modal" data-target=".modal-login" id="button-login-xs" class="elements-nav-xs">
-                        <i class="fa fa-user"></i>&nbsp; Iniciar Sesión
-                    </a>
-                ';
-            }
-            ?>
         </div>
     </div>
 </nav>
 
+<!-- Modal de Login -->
 <div class="modal fade modal-login" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" id="modal-form-login" style="padding: 15px;">
@@ -125,32 +241,8 @@ error_reporting(E_PARSE);
     </div>
 </div>
 
-<div id="mobile-menu-list" class="hidden-sm hidden-md hidden-lg">
-    <br>
-    <h3 class="text-center tittles-pages-logo">STORE</h3>
-    <button class="btn btn-default button-mobile-menu" id="button-close-mobile-menu">
-        <i class="fa fa-times"></i>
-    </button>
-    <br><br>
-    <ul class="list-unstyled text-center">
-        <li><a href="index.php">Inicio</a></li>
-        <li><a href="product.php">Productos</a></li>
-        <li><a href="carrito.php">Carrito</a></li>
-        <?php
-        if (!empty($_SESSION['nombreAdmin'])) {
-            echo '<li><a href="configAdmin.php">Administración</a></li>';
-        } elseif (!empty($_SESSION['nombreUser'])) {
-            echo '
-            <li><a href="pedido.php">Pedido</a></li>
-            <li><a href="#" class="glyphicon glyphicon-cog userConBtn" data-code="'.$_SESSION['UserNIT'].'"> Configuraciones</a></li>
-            ';
-        } else {
-            echo '<li><a href="registration.php">Registro</a></li>';
-        }
-        ?>
-    </ul>
-</div>
-<?php if (isset($_SESSION['nombreUser'])): ?>
+<!-- Modal de Configuración de Usuario -->
+<?php if(isset($_SESSION['nombreUser'])): ?>
 <div class="modal fade" id="ModalUpUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <form class="modal-content FormCatElec" action="process/updateClient.php" method="POST" data-form="save" autocomplete="off">
@@ -159,6 +251,7 @@ error_reporting(E_PARSE);
                 <h4 class="modal-title" id="myModalLabel">Configuraciones</h4>
             </div>
             <div class="modal-body" id="UserConData">
+                <!-- El contenido se cargará dinámicamente via AJAX -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -167,4 +260,55 @@ error_reporting(E_PARSE);
         </form>
     </div>
 </div>
+
+<!-- Script para manejar la configuración del usuario -->
+<script>
+$(document).ready(function() {
+    // Manejo del click en el botón de configuración
+    $('.userConBtn').on('click', function(e) {
+        e.preventDefault();
+        var code = $(this).data('code');
+        
+        // Cargar datos del usuario via AJAX
+        $.ajax({
+            url: 'process/getUserData.php',
+            method: 'POST',
+            data: {code: code},
+            success: function(response) {
+                $('#UserConData').html(response);
+                $('#ModalUpUser').modal('show');
+            },
+           
+        });
+    });
+
+    // Manejo del formulario de configuración
+    $(".FormCatElec").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var data = form.serialize();
+        var url = form.attr('action');
+        
+       /*  $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            success: function(response) {
+                if(response.includes("success")) {
+                    alert("Datos actualizados correctamente");
+                    $('#ModalUpUser').modal('hide');
+                    // Opcional: recargar la página para mostrar los datos actualizados
+                    location.reload();
+                } else {
+                    alert("Error al actualizar los datos");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la actualización:", error);
+                alert("Error al actualizar los datos");
+            }
+        }); */
+    });
+});
+</script>
 <?php endif; ?>
