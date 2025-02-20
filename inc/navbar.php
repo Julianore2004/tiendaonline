@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 error_reporting(E_PARSE);
 
 // Conexión a la base de datos
-$servername = "localhost";  
+$servername = "localhost";
 $username = "root";
 $password = "guardian.tale3";
 $dbname = "tddiego";
@@ -27,33 +27,21 @@ $result = $conn->query($sql);
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         padding: 10px 0;
     }
-    
+
     .top-section {
-        padding-bottom: 15px;
+        padding-bottom: 5px;
         border-bottom: 1px solid #eee;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
-    
+
     .brand-name {
+       
         font-size: 24px;
         font-weight: bold;
         margin: 0;
         line-height: 40px;
     }
-    
-    .search-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    .search-box {
-        width: 100%;
-        padding: 8px 15px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-right: 10px;
-    }
-    
+
     .nav-links {
         display: flex;
         justify-content: flex-start;
@@ -61,17 +49,17 @@ $result = $conn->query($sql);
         margin: 0;
         padding: 0;
     }
-    
+
     .nav-links li {
         margin-right: 20px;
     }
-    
+
     .nav-links a {
         color: #333;
         text-decoration: none;
         font-size: 14px;
     }
-    
+
     .dropdown {
         position: relative;
     }
@@ -99,14 +87,76 @@ $result = $conn->query($sql);
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
-        
+
         .nav-links {
             flex-direction: column;
         }
-        
+
         .nav-links li {
             margin: 5px 0;
         }
+    }
+
+    .search-container {
+        margin-top: 5px;
+        position: relative;
+        width: 100%;
+    }
+
+    .input-group {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-box {
+        flex: 1;
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        width: 100%;
+    }
+
+    .input-group-append {
+        display: flex;
+    }
+
+    .custom-btn {
+        border-radius: 0 4px 4px 0;
+        padding: 8px 15px;
+        background-color: #e74c3c;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .custom-btn:hover {
+        background-color: #007bff;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+    }
+
+    .search-results .list-group-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .search-results .list-group-item img {
+        max-width: 50px;
+        max-height: 50px;
+        margin-right: 10px;
     }
 </style>
 
@@ -114,13 +164,20 @@ $result = $conn->query($sql);
     <div class="container">
         <!-- Sección superior -->
         <div class="row top-section">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <h1 class="brand-name">Xtreme AI</h1>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="search-container">
-                    <input type="text" class="search-box" placeholder="Buscar...">
-                    <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    <form action="search.php" method="GET" class="search-form">
+                        <div class="input-group">
+                            <input type="text" class="search-box" name="term" placeholder="Buscar...">
+                            <div class="input-group-append">
+                                <button type="submit" class="custom-btn"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchResults" class="search-results"></div>
                 </div>
             </div>
             <div class="col-md-3 text-right">
@@ -150,7 +207,7 @@ $result = $conn->query($sql);
                 ?>
             </div>
         </div>
-        
+
         <!-- Sección de navegación -->
         <div class="row">
             <div class="col-md-12">
@@ -268,7 +325,7 @@ $(document).ready(function() {
     $('.userConBtn').on('click', function(e) {
         e.preventDefault();
         var code = $(this).data('code');
-        
+
         // Cargar datos del usuario via AJAX
         $.ajax({
             url: 'process/getUserData.php',
@@ -278,7 +335,7 @@ $(document).ready(function() {
                 $('#UserConData').html(response);
                 $('#ModalUpUser').modal('show');
             },
-           
+
         });
     });
 
@@ -288,7 +345,7 @@ $(document).ready(function() {
         var form = $(this);
         var data = form.serialize();
         var url = form.attr('action');
-        
+
        /*  $.ajax({
             url: url,
             method: 'POST',
@@ -312,3 +369,49 @@ $(document).ready(function() {
 });
 </script>
 <?php endif; ?>
+
+<!-- Script para la búsqueda en tiempo real -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('.search-box');
+        const searchResults = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value;
+            if (query.length > 2) { // Realiza la búsqueda si la consulta tiene más de 2 caracteres
+                fetch('search_suggestions.php?term=' + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = ''; // Limpia los resultados anteriores
+                        if (data.length > 0) {
+                            searchResults.style.display = 'block';
+                            data.forEach(item => {
+                                const listItem = document.createElement('a');
+                                listItem.href = 'infoProd.php?CodigoProd=' + item.CodigoProd;
+                                listItem.className = 'list-group-item';
+                                listItem.innerHTML = `
+                                    <img src="./assets/img-products/${item.Imagen}" alt="${item.NombreProd}">
+                                    <div>
+                                        <h5>${item.NombreProd}</h5>
+                                        <p>S/.${item.Precio}</p>
+                                    </div>
+                                `;
+                                searchResults.appendChild(listItem);
+                            });
+                        } else {
+                            searchResults.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    });
+</script>

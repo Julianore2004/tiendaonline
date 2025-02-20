@@ -5,32 +5,8 @@
   <title>Pedido</title>
   <?php include './inc/link.php'; ?>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #343a40;
-    }
+   
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .page-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .page-header h1 {
-      font-size: 2.5em;
-      margin: 0;
-    }
-
-    .page-header small {
-      font-size: 1.2em;
-      color: #6c757d;
-    }
 
     .lead {
       font-size: 1.25em;

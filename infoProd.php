@@ -12,11 +12,7 @@ include './library/consulSQL.php';
     <title>Detalle del Producto</title>
     <?php include './inc/link.php'; ?>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-        }
+       
 
         .product-detail {
             margin-top: 20px;
