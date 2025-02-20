@@ -8,10 +8,6 @@
    
 
 
-    .lead {
-      font-size: 1.25em;
-      margin-bottom: 20px;
-    }
 
     .center-all-contens {
       display: block;
@@ -74,6 +70,7 @@
 <body id="container-page-index">
   <?php include './inc/navbar.php'; ?>
   <section id="container-pedido">
+  <br>
     <div class="container">
       <div class="page-header">
         <h1>PEDIDOS <small class="tittles-pages-logo">XTREME AI</small></h1>

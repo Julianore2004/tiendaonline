@@ -320,7 +320,8 @@ include './library/consulSQL.php';
 
 <body id="container-page-product">
     <?php include './inc/navbar.php'; ?>
-    <section id="infoproduct" class="product-detail">
+    <section id="container-pedido">
+    <br>
         <div class="container">
             <div class="row">
                 <div class="page-header">

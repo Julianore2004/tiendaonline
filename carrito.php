@@ -7,6 +7,7 @@
 <body id="container-page-index">
     <?php include './inc/navbar.php'; ?>
     <section id="container-pedido">
+    <br>
         <div class="container">
             <div class="page-header">
               <h1>CARRITO DE COMPRAS <small class="tittles-pages-logo">Xtreme AI</small></h1>

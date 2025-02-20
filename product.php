@@ -16,7 +16,7 @@ include './library/consulSQL.php';
     <br>
     <div class="container">
         <div class="page-header">
-            <h1>Xtreme <small class="tittles-pages-logo">AI</small></h1>
+        <h1>PRODUCTOS <small class="tittles-pages-logo">XTREME AI</small></h1>
         </div>
         <?php
         $checkAllCat = ejecutarSQL::consultar("SELECT * FROM categoria");

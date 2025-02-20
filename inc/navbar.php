@@ -22,24 +22,42 @@ $result = $conn->query($sql);
 ?>
 
 <style>
+  
+
     .navbar-container {
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        padding: 10px 0;
+        padding: 5px 0;
+        transition: top 0.3s ease-in-out;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        top: 0;
+    }
+
+    .navbar-container.hidden {
+        top: -100px;
     }
 
     .top-section {
         padding-bottom: 5px;
         border-bottom: 1px solid #eee;
         margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .brand-name {
-       
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
         margin: 0;
-        line-height: 40px;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .brand-name:hover {
+        color: #e74c3c;
     }
 
     .nav-links {
@@ -51,17 +69,19 @@ $result = $conn->query($sql);
     }
 
     .nav-links li {
-        margin-right: 20px;
+        margin-right: 25px;
+        position: relative;
     }
 
     .nav-links a {
         color: #333;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 16px;
+        transition: color 0.3s ease;
     }
 
-    .dropdown {
-        position: relative;
+    .nav-links a:hover {
+        color: #e74c3c;
     }
 
     .dropdown-menu {
@@ -71,49 +91,45 @@ $result = $conn->query($sql);
         left: 0;
         z-index: 1000;
         min-width: 160px;
-        padding: 5px 0;
+        padding: 10px 0;
         background-color: #fff;
         border: 1px solid rgba(0,0,0,.15);
         border-radius: 4px;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .dropdown:hover .dropdown-menu {
         display: block;
-    }
-
-    @media (max-width: 768px) {
-        .top-section {
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        .nav-links {
-            flex-direction: column;
-        }
-
-        .nav-links li {
-            margin: 5px 0;
-        }
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .search-container {
-        margin-top: 5px;
         position: relative;
         width: 100%;
+        max-width: 400px;
+        margin: 10px 0;
     }
 
     .input-group {
         display: flex;
-        width: 100%;
     }
 
     .search-box {
         flex: 1;
-        padding: 8px 15px;
+        padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px 0 0 4px;
-        width: 100%;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .search-box:focus {
+        border-color: #e74c3c;
+        outline: none;
     }
 
     .input-group-append {
@@ -122,15 +138,16 @@ $result = $conn->query($sql);
 
     .custom-btn {
         border-radius: 0 4px 4px 0;
-        padding: 8px 15px;
+        padding: 10px 15px;
         background-color: #e74c3c;
         color: #fff;
         border: none;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .custom-btn:hover {
-        background-color: #007bff;
+        background-color: #c0392b;
     }
 
     .search-results {
@@ -151,6 +168,11 @@ $result = $conn->query($sql);
         display: flex;
         align-items: center;
         padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .search-results .list-group-item:last-child {
+        border-bottom: none;
     }
 
     .search-results .list-group-item img {
@@ -158,29 +180,51 @@ $result = $conn->query($sql);
         max-height: 50px;
         margin-right: 10px;
     }
+
+    @media (max-width: 768px) {
+        .top-section {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .nav-links li {
+            margin: 10px 0;
+        }
+
+        .search-container {
+            width: 100%;
+        }
+    }
 </style>
 
 <nav class="navbar-container">
     <div class="container">
         <!-- Sección superior -->
-        <div class="row top-section">
-            <div class="col-md-2">
-                <h1 class="brand-name">Xtreme AI</h1>
-            </div>
-            <div class="col-md-7">
-                <div class="search-container">
-                    <form action="search.php" method="GET" class="search-form">
-                        <div class="input-group">
-                            <input type="text" class="search-box" name="term" placeholder="Buscar...">
-                            <div class="input-group-append">
-                                <button type="submit" class="custom-btn"><i class="fa fa-search"></i></button>
-                            </div>
+        <div class="top-section">
+            <div class="brand-name tittles-pages-logo">Xtreme AI</div>
+          
+            <div class="search-container">
+                <form action="search.php" method="GET" class="search-form">
+                    <div class="input-group">
+                        <input type="text" class="search-box" name="term" placeholder="Buscar...">
+                        <div class="input-group-append">
+                            <button type="submit" class="custom-btn"><i class="fa fa-search"></i></button>
                         </div>
-                    </form>
-                    <div id="searchResults" class="search-results"></div>
-                </div>
+                    </div>
+                </form>
+                <div id="searchResults" class="search-results"></div>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="user-section">
                 <?php
                 if (!empty($_SESSION['nombreAdmin'])) {
                     echo '
@@ -209,44 +253,43 @@ $result = $conn->query($sql);
         </div>
 
         <!-- Sección de navegación -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="nav-links">
-                    <li><a href="index.php">Inicio</a></li>
-                    <li><a href="product.php">Productos</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">Categorías</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="product.php">Todas las categorías</a></li>
-                            <li role="separator" class="divider"></li>
-                            <?php
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
-                                    echo '<li><a href="product.php?categ=' . $row["CodigoCat"] . '">' . $row["Nombre"] . '</a></li>';
-                                }
-                            } else {
-                                echo '<li><a href="#">No hay categorías disponibles</a></li>';
+        <div class="nav-links-container">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Categorías</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="product.php">Todas las categorías</a></li>
+                        <li role="separator" class="divider"></li>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                echo '<li><a href="product.php?categ=' . $row["CodigoCat"] . '">' . $row["Nombre"] . '</a></li>';
                             }
-                            ?>
-                        </ul>
-                    </li>
-                    <?php
-                    if (!empty($_SESSION['nombreAdmin'])) {
-                        echo '
-                            <li><a href="carrito.php">Carrito</a></li>
-                            <li><a href="configAdmin.php">Administración</a></li>
-                        ';
-                    } elseif (!empty($_SESSION['nombreUser'])) {
-                        echo '
-                            <li><a href="pedido.php">Pedido</a></li>
-                            <li><a href="carrito.php">Carrito</a></li>
-                        ';
-                    } else {
-                        echo '<li><a href="registration.php">Registro</a></li>';
-                    }
-                    ?>
-                </ul>
-            </div>
+                        } else {
+                            echo '<li><a href="#">No hay categorías disponibles</a></li>';
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="product.php">Productos</a></li>
+
+                <?php
+                if (!empty($_SESSION['nombreAdmin'])) {
+                    echo '
+                        <li><a href="carrito.php">Carrito</a></li>
+                        <li><a href="configAdmin.php">Administración</a></li>
+                    ';
+                } elseif (!empty($_SESSION['nombreUser'])) {
+                    echo '
+                        <li><a href="pedido.php">Pedido</a></li>
+                        <li><a href="carrito.php">Carrito</a></li>
+                    ';
+                } else {
+                    echo '<li><a href="registration.php">Registro</a></li>';
+                }
+                ?>
+            </ul>
         </div>
     </div>
 </nav>
@@ -413,5 +456,23 @@ $(document).ready(function() {
                 searchResults.style.display = 'none';
             }
         });
+    });
+</script>
+
+<!-- Script para ocultar el encabezado al hacer scroll -->
+<script>
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar-container');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop) {
+            // Scroll hacia abajo
+            navbar.classList.add('hidden');
+        } else {
+            // Scroll hacia arriba
+            navbar.classList.remove('hidden');
+        }
+        lastScrollTop = scrollTop;
     });
 </script>
