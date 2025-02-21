@@ -22,8 +22,6 @@ $result = $conn->query($sql);
 ?>
 
 <style>
-  
-
     .navbar-container {
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -87,11 +85,11 @@ $result = $conn->query($sql);
     .dropdown-menu {
         display: none;
         position: absolute;
-        top: 100%;
+        top: 95%;
         left: 0;
         z-index: 1000;
         min-width: 160px;
-        padding: 10px 0;
+        padding: 5px 0;
         background-color: #fff;
         border: 1px solid rgba(0,0,0,.15);
         border-radius: 4px;
@@ -105,6 +103,23 @@ $result = $conn->query($sql);
         display: block;
         opacity: 1;
         transform: translateY(0);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .dropdown-menu li {
+        transition: background-color 0.3s ease;
+    }
+
+    .dropdown-menu li:hover {
+        background-color: #e74c3c;
+    }
+
+    .dropdown-menu li a {
+        color: #333;
+    }
+
+    .dropdown-menu li:hover a {
+        color: #fff;
     }
 
     .search-container {
@@ -212,7 +227,7 @@ $result = $conn->query($sql);
         <!-- Sección superior -->
         <div class="top-section">
             <div class="brand-name tittles-pages-logo">Xtreme AI</div>
-          
+
             <div class="search-container">
                 <form action="search.php" method="GET" class="search-form">
                     <div class="input-group">
@@ -255,6 +270,9 @@ $result = $conn->query($sql);
         <!-- Sección de navegación -->
         <div class="nav-links-container">
             <ul class="nav-links">
+
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="product.php">Productos</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Categorías</a>
                     <ul class="dropdown-menu">
@@ -271,9 +289,6 @@ $result = $conn->query($sql);
                         ?>
                     </ul>
                 </li>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="product.php">Productos</a></li>
-
                 <?php
                 if (!empty($_SESSION['nombreAdmin'])) {
                     echo '
