@@ -4,11 +4,11 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 error_reporting(E_PARSE);
 
-// Conexión a la base de datos
+/* // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "guardian.tale3";
-$dbname = "tddiego";
+$dbname = "tddiego"; */
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
