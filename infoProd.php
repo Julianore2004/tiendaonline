@@ -485,7 +485,7 @@ include './library/consulSQL.php';
             setInterval(() => {
                 currentIndex = (currentIndex + 1) % thumbnails.length;
                 changeImage(thumbnails[currentIndex].src);
-            }, 3000); // Cambia la imagen cada 3 segundos
+            }, 8000); // Cambia la imagen cada 3 segundos
         }
 
         function prevImage() {
