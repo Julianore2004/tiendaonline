@@ -21,6 +21,11 @@ $imgType = $_FILES['img']['type'];
 $imgSize = $_FILES['img']['size'];
 $imgMaxSize = 5120;
 
+$img1 = consultasSQL::clean_string($_POST['img1']);
+$img2 = consultasSQL::clean_string($_POST['img2']);
+$img3 = consultasSQL::clean_string($_POST['img3']);
+$img4 = consultasSQL::clean_string($_POST['img4']);
+
 if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" && $modelProd != "" && $marcaProd != "" && $stockProd != "" && $codePProd != "" && $codeDeProd != "" && $condicionProd != "") {
     $verificar = ejecutarSQL::consultar("SELECT * FROM producto WHERE CodigoProd='" . $codeProd . "'");
     $verificaltotal = mysqli_num_rows($verificar);
@@ -38,7 +43,7 @@ if ($codeProd != "" && $nameProd != "" && $cateProd != "" && $priceProd != "" &&
                 }
                 $imgFinalName = $codeProd . $imgEx;
                 if (move_uploaded_file($_FILES['img']['tmp_name'], "../assets/img-products/" . $imgFinalName)) {
-                    if (consultasSQL::InsertSQL("producto", "CodigoProd, CodigoDeProducto, NombreProd, CodigoCat, Precio, Descuento, Modelo, Marca, Stock, NITProveedor, Imagen, Nombre, Estado, Condicion", "'$codeProd','$codeDeProd','$nameProd','$cateProd','$priceProd', '$descProd', '$modelProd','$marcaProd','$stockProd','$codePProd','$imgFinalName','$adminProd', '$estadoProd', '$condicionProd'")) {
+                    if (consultasSQL::InsertSQL("producto", "CodigoProd, CodigoDeProducto, NombreProd, CodigoCat, Precio, Descuento, Modelo, Marca, Stock, NITProveedor, Imagen, Nombre, Estado, Condicion, Imagen1, Imagen2, Imagen3, Imagen4", "'$codeProd','$codeDeProd','$nameProd','$cateProd','$priceProd', '$descProd', '$modelProd','$marcaProd','$stockProd','$codePProd','$imgFinalName','$adminProd', '$estadoProd', '$condicionProd', '$img1', '$img2', '$img3', '$img4'")) {
                         echo '<script>
                             swal({
                               title: "Producto registrado",

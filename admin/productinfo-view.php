@@ -159,6 +159,36 @@
                   <p class="help-block">Formato de imágenes admitido png y jpg. Tamaño máximo 5MB</p>
                 </div>
               </div>
+              <div class="col-xs-12">
+                <legend>Imágenes adicionales del producto</legend>
+                <p class="text-center text-primary">
+                  Ingrese los enlaces de las imágenes adicionales del producto.
+                </p>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group label-floating">
+                  <label class="control-label">Imagen 1 (URL)</label>
+                  <input type="url" class="form-control" name="img1" value="<?php echo $prod['Imagen1']; ?>">
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group label-floating">
+                  <label class="control-label">Imagen 2 (URL)</label>
+                  <input type="url" class="form-control" name="img2" value="<?php echo $prod['Imagen2']; ?>">
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group label-floating">
+                  <label class="control-label">Imagen 3 (URL)</label>
+                  <input type="url" class="form-control" name="img3" value="<?php echo $prod['Imagen3']; ?>">
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group label-floating">
+                  <label class="control-label">Imagen 4 (URL)</label>
+                  <input type="url" class="form-control" name="img4" value="<?php echo $prod['Imagen4']; ?>">
+                </div>
+              </div>
             </div>
           </div>
           <input type="hidden" name="admin-name" value="<?php echo $_SESSION['nombreAdmin'] ?>">

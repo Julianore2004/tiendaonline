@@ -12,7 +12,9 @@ include './library/consulSQL.php';
     <title>Detalle del Producto</title>
     <?php include './inc/link.php'; ?>
     <style>
-       
+        body {
+            font-family: Arial, sans-serif;
+        }
 
         .product-detail {
             margin-top: 20px;
@@ -25,7 +27,6 @@ include './library/consulSQL.php';
         .product-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
             gap: 20px;
             max-width: 1200px;
             margin: auto;
@@ -36,18 +37,60 @@ include './library/consulSQL.php';
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         .product-image img {
-            max-width: 500px;
-            max-height: 500px;
-            width: auto;
-            height: auto;
+            width: 455px;
+            height: 455px;
             object-fit: contain;
         }
 
-        .product-info {
+        .thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
+        .thumbnails img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumbnails img:hover {
+            border: 2px solid #007bff;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+         
+        }
+
+        .carousel-controls button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 50%;
+        }
+
+        .carousel-controls button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .product-info {
             flex: 1;
             padding: 20px;
             background-color: #fff;
@@ -220,6 +263,34 @@ include './library/consulSQL.php';
         }
 
         @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-image,
+            .product-info {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .product-image img {
+                width: 100%;
+                height: auto;
+            }
+
+            .thumbnails {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .thumbnails img {
+                width: 70px;
+                height: 70px;
+            }
+
             .quantity-buttons {
                 max-width: 150px;
             }
@@ -246,13 +317,6 @@ include './library/consulSQL.php';
 
             .quantity-buttons input[type="number"] {
                 font-size: 12px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .product-image,
-            .product-info {
-                margin-bottom: 20px;
             }
         }
 
@@ -308,20 +372,13 @@ include './library/consulSQL.php';
         .add-to-cart-container #carro {
             flex: 1;
         }
-
-        @media (max-width: 768px) {
-            .product-image img {
-                width: 100%;
-                height: auto;
-            }
-        }
     </style>
 </head>
 
 <body id="container-page-product">
     <?php include './inc/navbar.php'; ?>
     <section id="container-pedido">
-    <br>
+        <br>
         <div class="container">
             <div class="row">
                 <div class="page-header">
@@ -329,14 +386,35 @@ include './library/consulSQL.php';
                 </div>
                 <?php
                 $CodigoProducto = consultasSQL::clean_string($_GET['CodigoProd']);
-                $productoinfo = ejecutarSQL::consultar("SELECT producto.CodigoProd, producto.CodigoDeProducto, producto.NombreProd, producto.CodigoCat, categoria.Nombre, producto.Precio, producto.Descuento, producto.Stock, producto.Imagen, producto.Condicion FROM categoria INNER JOIN producto ON producto.CodigoCat=categoria.CodigoCat WHERE CodigoProd='" . $CodigoProducto . "'");
+                $productoinfo = ejecutarSQL::consultar("SELECT producto.CodigoProd, producto.CodigoDeProducto, producto.NombreProd, producto.CodigoCat, categoria.Nombre, producto.Precio, producto.Descuento, producto.Stock, producto.Imagen, producto.Imagen1, producto.Imagen2, producto.Imagen3, producto.Imagen4, producto.Condicion FROM categoria INNER JOIN producto ON producto.CodigoCat=categoria.CodigoCat WHERE CodigoProd='" . $CodigoProducto . "'");
                 while ($fila = mysqli_fetch_array($productoinfo, MYSQLI_ASSOC)) {
                     $precioDescuento = number_format(($fila['Precio'] - ($fila['Precio'] * ($fila['Descuento'] / 100))), 2, '.', '');
                     $precioOriginal = number_format($fila['Precio'], 2, '.', '');
                     echo '
                             <div class="product-container">
                                 <div class="product-image">
-                                    <img class="img-responsive" src="' . ($fila['Imagen'] != "" && is_file("./assets/img-products/" . $fila['Imagen']) ? "./assets/img-products/" . $fila['Imagen'] : "./assets/img-products/default.png") . '">
+                                    <img id="main-image" class="img-responsive" src="' . ($fila['Imagen'] != "" && is_file("./assets/img-products/" . $fila['Imagen']) ? "./assets/img-products/" . $fila['Imagen'] : "./assets/img-products/default.png") . '">
+                                    <div class="thumbnails">';
+                    if ($fila['Imagen'] != "") {
+                        echo '<img src="' . ($fila['Imagen'] != "" && is_file("./assets/img-products/" . $fila['Imagen']) ? "./assets/img-products/" . $fila['Imagen'] : "./assets/img-products/default.png") . '" onclick="changeImage(this.src)">';
+                    }
+                    if ($fila['Imagen1'] != "") {
+                        echo '<img src="' . $fila['Imagen1'] . '" onclick="changeImage(this.src)">';
+                    }
+                    if ($fila['Imagen2'] != "") {
+                        echo '<img src="' . $fila['Imagen2'] . '" onclick="changeImage(this.src)">';
+                    }
+                    if ($fila['Imagen3'] != "") {
+                        echo '<img src="' . $fila['Imagen3'] . '" onclick="changeImage(this.src)">';
+                    }
+                    if ($fila['Imagen4'] != "") {
+                        echo '<img src="' . $fila['Imagen4'] . '" onclick="changeImage(this.src)">';
+                    }
+                    echo '</div>
+                                    <div class="carousel-controls">
+                                        <button onclick="prevImage()">&#10094;</button>
+                                        <button onclick="nextImage()">&#10095;</button>
+                                    </div>
                                 </div>
                                 <div class="product-info">
                                     <h2><strong>' . $fila['NombreProd'] . '</strong></h2>
@@ -348,8 +426,8 @@ include './library/consulSQL.php';
                                         <h4><strong>Stock:</strong> <span class="' . ($fila['Stock'] >= 1 ? 'stock' : 'out-of-stock') . '">' . ($fila['Stock'] >= 1 ? $fila['Stock'] : 'No hay existencias') . '</span></h4>
                                     </div>
                                     <div class="price-container">';
-                                    if ($fila['Descuento'] > 0) {
-                                        echo '
+                    if ($fila['Descuento'] > 0) {
+                        echo '
                                         <div class="precioDescuento">
                                             <h4><strong>Oferta:</strong> <span class="price">S/ ' . $precioDescuento . '</span></h4>
                                             <div class="Descuento">
@@ -357,10 +435,10 @@ include './library/consulSQL.php';
                                             </div>
                                         </div>
                                         <h4><strong>Precio:</strong> <span class="original-price">S/ ' . $precioOriginal . '</span></h4>';
-                                    } else {
-                                        echo ' <h4><strong>Precio:</strong> <span class="price">S/ ' . $precioOriginal . '</span></h4>';
-                                    }
-                                    echo '</div>';
+                    } else {
+                        echo ' <h4><strong>Precio:</strong> <span class="price">S/ ' . $precioOriginal . '</span></h4>';
+                    }
+                    echo '</div>';
                     if ($fila['Stock'] >= 1) {
                         if (isset($_SESSION['nombreAdmin']) && !empty($_SESSION['nombreAdmin']) || isset($_SESSION['nombreUser']) && !empty($_SESSION['nombreUser'])) {
                             echo '<form action="process/carrito.php" method="POST" class="FormCatElec add-to-cart" data-form="">
@@ -394,6 +472,32 @@ include './library/consulSQL.php';
     <?php include './inc/footer.php'; ?>
 
     <script>
+        let currentIndex = 0;
+        const thumbnails = document.querySelectorAll('.thumbnails img');
+        const mainImage = document.getElementById('main-image');
+
+        function changeImage(src) {
+            mainImage.src = src;
+            currentIndex = Array.from(thumbnails).findIndex(img => img.src === src);
+        }
+
+        function startCarousel() {
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % thumbnails.length;
+                changeImage(thumbnails[currentIndex].src);
+            }, 3000); // Cambia la imagen cada 3 segundos
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+            changeImage(thumbnails[currentIndex].src);
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % thumbnails.length;
+            changeImage(thumbnails[currentIndex].src);
+        }
+
         function incrementQuantity() {
             var quantityInput = document.getElementById('quantity');
             var currentValue = parseInt(quantityInput.value);
@@ -411,8 +515,12 @@ include './library/consulSQL.php';
                 quantityInput.value = currentValue - 1;
             }
         }
+
+        // Iniciar el carrusel automático al cargar la página
+        window.onload = startCarousel;
     </script>
 
 </body>
 
 </html>
+

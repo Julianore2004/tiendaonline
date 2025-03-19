@@ -58,7 +58,12 @@ if ($imgName != "") {
     }
 }
 
-$updateQuery = "NombreProd='$nameProdUp',CodigoCat='$catProdUp',Precio='$priceProdUp',Descuento='$descProdUp',Modelo='$modelProdUp',Marca='$marcaProdUp',Stock='$stockProdUp',NITProveedor='$proveProdUp',Estado='$EstadoProdUp',Condicion='$condicionProdUp',CodigoDeProducto='$codigoDeProductoUp'";
+$img1 = consultasSQL::clean_string($_POST['img1']);
+$img2 = consultasSQL::clean_string($_POST['img2']);
+$img3 = consultasSQL::clean_string($_POST['img3']);
+$img4 = consultasSQL::clean_string($_POST['img4']);
+
+$updateQuery = "NombreProd='$nameProdUp',CodigoCat='$catProdUp',Precio='$priceProdUp',Descuento='$descProdUp',Modelo='$modelProdUp',Marca='$marcaProdUp',Stock='$stockProdUp',NITProveedor='$proveProdUp',Estado='$EstadoProdUp',Condicion='$condicionProdUp',CodigoDeProducto='$codigoDeProductoUp', Imagen1='$img1', Imagen2='$img2', Imagen3='$img3', Imagen4='$img4'";
 
 if ($imgFinalName != '') {
     $updateQuery .= ", Imagen='$imgFinalName'";
