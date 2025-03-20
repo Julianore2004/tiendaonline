@@ -116,8 +116,8 @@
                     <p>Por favor, escanee el siguiente código QR con su aplicación de Yape para realizar el pago:</p>
                     <p>Después de realizar el pago, ingrese el número de operación y adjunte una captura del comprobante de pago.</p>
                     <div class="form-group">
-                        <label>Número de DNI</label>
-                        <input class="form-control" type="text" name="NumDepo" placeholder="Número de DNI" maxlength="50" required>
+                        <label>Número de Operacion</label>
+                        <input class="form-control" type="text" name="NumDepo" placeholder="Número de Operacion" maxlength="50" required>
                     </div>
                     <div class="form-group">
                         <label>Tipo de Envío</label>

@@ -82,8 +82,8 @@
                                 <a href="product.php" class="btn btn-primary btn-raised btn-lg"><i class="fas fa-shopping-cart"></i> Seguir comprando</a>
                                 <a href="process/vaciarcarrito.php" class="btn btn-success btn-raised btn-lg"><i class="fas fa-trash"></i> Vaciar el carrito</a>
                                 
-                                <a href="process/confirmarpedido.php" class="btn btn-danger btn-raised btn-lg"><i class="fas fa-check"></i> Confirmar el pedido</a>
-                               
+                                <a href="pedido.php" class="btn btn-danger btn-raised btn-lg">Confirmar el pedido</a>
+                          
                                 </p>
                             ';
                         } else {
