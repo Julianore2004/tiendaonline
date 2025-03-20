@@ -81,8 +81,10 @@
                             <p class="text-center">
                                 <a href="product.php" class="btn btn-primary btn-raised btn-lg"><i class="fas fa-shopping-cart"></i> Seguir comprando</a>
                                 <a href="process/vaciarcarrito.php" class="btn btn-success btn-raised btn-lg"><i class="fas fa-trash"></i> Vaciar el carrito</a>
-                         <a href="process/confirmarpedido.php" class="btn btn-danger btn-raised btn-lg"><i class="fas fa-check"></i> Confirmar el pedido</a>
-   </p>
+                                
+                                <a href="process/confirmarpedido.php" class="btn btn-danger btn-raised btn-lg"><i class="fas fa-check"></i> Confirmar el pedido</a>
+                               
+                                </p>
                             ';
                         } else {
                             echo '<p class="text-center text-danger lead">El carrito de compras está vacío</p><br>
