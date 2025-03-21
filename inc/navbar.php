@@ -26,7 +26,7 @@ $result = $conn->query($sql);
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         padding: 5px 0;
-        transition: top 0.3s ease-in-out;
+        transition: top 0.5s ease-in-out;
         position: fixed;
         width: 100%;
         z-index: 1000;
@@ -35,6 +35,24 @@ $result = $conn->query($sql);
 
     .navbar-container.hidden {
         top: -100px;
+    }
+
+    .compact-navbar {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 5px 0;
+        transition: top 0.5s ease-in-out;
+        position: fixed;
+        width: 100%;
+        z-index: 999;
+        top: -100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .compact-navbar.visible {
+        top: 0;
     }
 
     .top-section {
@@ -122,10 +140,10 @@ $result = $conn->query($sql);
         color: #fff;
     }
 
-    .search-container {
+    .search-container, .compact-search-container {
         position: relative;
         width: 100%;
-        max-width: 400px;
+        max-width: 400px; /* Asegura que ambos buscadores tengan el mismo ancho */
         margin: 10px 0;
     }
 
@@ -309,6 +327,45 @@ $result = $conn->query($sql);
     </div>
 </nav>
 
+<!-- Compact Navbar -->
+<nav class="compact-navbar">
+    <div class="brand-name tittles-pages-logo">Xtreme AI</div>
+    <div class="compact-search-container">
+        <form action="search.php" method="GET" class="search-form">
+            <div class="input-group">
+                <input type="text" class="search-box" name="term" placeholder="Buscar...">
+                <div class="input-group-append">
+                    <button type="submit" class="custom-btn"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+        <div id="compactSearchResults" class="search-results"></div>
+    </div>
+    <div class="user-section">
+        <?php
+        if (!empty($_SESSION['nombreAdmin'])) {
+            echo '
+                <a href="#!" class="btn btn-link exit-system">
+                    <i class="fa fa-user"></i> '.$_SESSION['nombreAdmin'].'
+                </a>
+            ';
+        } elseif (!empty($_SESSION['nombreUser'])) {
+            echo '
+                <a href="#!" class="btn btn-link exit-system">
+                    <i class="fa fa-user"></i> '.$_SESSION['nombreUser'].'
+                </a>
+            ';
+        } else {
+            echo '
+                <a href="#" class="btn btn-link" data-toggle="modal" data-target=".modal-login">
+                    <i class="fa fa-user"></i> Iniciar Sesión
+                </a>
+            ';
+        }
+        ?>
+    </div>
+</nav>
+
 <!-- Modal de Login -->
 <div class="modal fade modal-login" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -431,44 +488,55 @@ $(document).ready(function() {
 <!-- Script para la búsqueda en tiempo real -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.querySelector('.search-box');
+        const searchInputs = document.querySelectorAll('.search-box');
         const searchResults = document.getElementById('searchResults');
+        const compactSearchResults = document.getElementById('compactSearchResults');
 
-        searchInput.addEventListener('input', function() {
-            const query = searchInput.value;
-            if (query.length > 2) { // Realiza la búsqueda si la consulta tiene más de 2 caracteres
-                fetch('search_suggestions.php?term=' + encodeURIComponent(query))
-                    .then(response => response.json())
-                    .then(data => {
-                        searchResults.innerHTML = ''; // Limpia los resultados anteriores
-                        if (data.length > 0) {
-                            searchResults.style.display = 'block';
-                            data.forEach(item => {
-                                const listItem = document.createElement('a');
-                                listItem.href = 'infoProd.php?CodigoProd=' + item.CodigoProd;
-                                listItem.className = 'list-group-item';
-                                listItem.innerHTML = `
-                                    <img src="./assets/img-products/${item.Imagen}" alt="${item.NombreProd}">
-                                    <div>
-                                        <h5>${item.NombreProd}</h5>
-                                        <p>S/.${item.Precio}</p>
-                                    </div>
-                                `;
-                                searchResults.appendChild(listItem);
-                            });
-                        } else {
-                            searchResults.style.display = 'none';
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            } else {
-                searchResults.style.display = 'none';
-            }
+        searchInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const query = input.value;
+                if (query.length > 2) { // Realiza la búsqueda si la consulta tiene más de 2 caracteres
+                    fetch('search_suggestions.php?term=' + encodeURIComponent(query))
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResults.innerHTML = ''; // Limpia los resultados anteriores
+                            compactSearchResults.innerHTML = ''; // Limpia los resultados anteriores
+                            if (data.length > 0) {
+                                searchResults.style.display = 'block';
+                                compactSearchResults.style.display = 'block';
+                                data.forEach(item => {
+                                    const listItem = document.createElement('a');
+                                    listItem.href = 'infoProd.php?CodigoProd=' + item.CodigoProd;
+                                    listItem.className = 'list-group-item';
+                                    listItem.innerHTML = `
+                                        <img src="./assets/img-products/${item.Imagen}" alt="${item.NombreProd}">
+                                        <div>
+                                            <h5>${item.NombreProd}</h5>
+                                            <p>S/.${item.Precio}</p>
+                                        </div>
+                                    `;
+                                    searchResults.appendChild(listItem);
+                                    compactSearchResults.appendChild(listItem.cloneNode(true));
+                                });
+                            } else {
+                                searchResults.style.display = 'none';
+                                compactSearchResults.style.display = 'none';
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                } else {
+                    searchResults.style.display = 'none';
+                    compactSearchResults.style.display = 'none';
+                }
+            });
         });
 
         document.addEventListener('click', function(event) {
-            if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
+            if (!searchResults.contains(event.target) && !searchInputs[0].contains(event.target)) {
                 searchResults.style.display = 'none';
+            }
+            if (!compactSearchResults.contains(event.target) && !searchInputs[1].contains(event.target)) {
+                compactSearchResults.style.display = 'none';
             }
         });
     });
@@ -478,16 +546,32 @@ $(document).ready(function() {
 <script>
     let lastScrollTop = 0;
     const navbar = document.querySelector('.navbar-container');
+    const compactNavbar = document.querySelector('.compact-navbar');
+    const scrollThreshold = 50; // Umbral de scroll en píxeles
 
-    window.addEventListener('scroll', function() {
+    // Función debounce para limitar la frecuencia de ejecución del evento scroll
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    function handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > lastScrollTop) {
+        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
             // Scroll hacia abajo
             navbar.classList.add('hidden');
-        } else {
+            compactNavbar.classList.add('visible');
+        } else if (scrollTop < lastScrollTop && scrollTop <= scrollThreshold) {
             // Scroll hacia arriba
             navbar.classList.remove('hidden');
+            compactNavbar.classList.remove('visible');
         }
         lastScrollTop = scrollTop;
-    });
+    }
+
+    // Aplicar debounce al evento scroll
+    window.addEventListener('scroll', debounce(handleScroll, 100));
 </script>

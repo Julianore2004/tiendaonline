@@ -35,7 +35,7 @@ include './library/consulSQL.php';
         .product-image {
             flex: 1;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             position: relative;
         }
@@ -48,17 +48,15 @@ include './library/consulSQL.php';
 
         .thumbnails {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
-            position: absolute;
-            left: -60px;
-            top: 50%;
-            transform: translateY(-50%);
+            justify-content: center;
+            margin-top: 10px;
         }
 
         .thumbnails img {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             object-fit: cover;
             cursor: pointer;
             border: 2px solid transparent;
@@ -73,7 +71,8 @@ include './library/consulSQL.php';
             justify-content: space-between;
             width: 100%;
             position: absolute;
-         
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .carousel-controls button {
@@ -280,7 +279,6 @@ include './library/consulSQL.php';
             }
 
             .thumbnails {
-                position: static;
                 flex-direction: row;
                 justify-content: center;
                 margin-top: 10px;
@@ -485,7 +483,7 @@ include './library/consulSQL.php';
             setInterval(() => {
                 currentIndex = (currentIndex + 1) % thumbnails.length;
                 changeImage(thumbnails[currentIndex].src);
-            }, 8000); // Cambia la imagen cada 3 segundos
+            }, 8000); // Cambia la imagen cada 8 segundos
         }
 
         function prevImage() {
@@ -523,4 +521,3 @@ include './library/consulSQL.php';
 </body>
 
 </html>
-
